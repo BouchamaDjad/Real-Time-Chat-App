@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext, createContext } from 'react'
 import './App.css'
 import { Button } from "@/components/ui/button"
 
@@ -7,13 +7,17 @@ type Message = {
   sender: number
 }
 
+let UserIDContext = createContext<string | null>(null);
+
 function InputComponent({onClick} : {onClick: any}) {
+  let currentUser = useContext(UserIDContext);
   let [value, setValue] = useState('');
   
+
   let handleClick = () => {
     onClick({
       content: value,
-      sender: 0
+      sender: currentUser
     });
     setValue("");
   }
@@ -58,14 +62,14 @@ function Login({onClick} : {onClick: any}) {
   )
 }
 
-function Chat({messages}: {messages: {content:string}[]}) {
+function Chat({messages}: {messages: Message[]}) {
   console.log(messages);
   return (
     <div>
       {messages.map(
-          ({content},index) => {
+          ({content, sender},index) => {
             return <div key={index} className='messages'>
-              {content}
+              {sender}:{content}
             </div>
           }
         )
@@ -82,10 +86,10 @@ function App() {
   return (
     user === null ?
     <Login onClick={setUser} /> : 
-    <>
+    <UserIDContext value={user}>
       <Chat messages={messages} />
       <InputComponent onClick={(x: Message) => setMessages([...messages,x])} />
-    </>
+    </UserIDContext>
   )
 }
 
