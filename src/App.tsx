@@ -1,13 +1,14 @@
 import { useState, useContext, createContext } from 'react'
 import './App.css'
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 type Message = {
   content: string,
   sender: number
 }
 
-let sendIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+let sendIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
   <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
 </svg>
 
@@ -32,7 +33,8 @@ function InputComponent({onClick} : {onClick: any}) {
   
   return (
     <div>
-      <input 
+      <Input
+        className='max-w-xl'
         type="text" name="message" id="input-message" value={value} 
         onChange={(event) => setValue(event.target.value)}
         onKeyDown={handleEnter}
@@ -55,8 +57,9 @@ function Login({onClick} : {onClick: any}) {
   
   return (
     <div>
-      <div className='text-3xl font-bold'>Enter Username</div>
-      <input 
+      <div className='text-xl font-bold'>Enter Username</div>
+      <Input
+        className='max-w-xl'
         type="text" name="message" id="input-message" value={value} 
         onChange={(event) => setValue(event.target.value)}
         onKeyDown={handleEnter}
