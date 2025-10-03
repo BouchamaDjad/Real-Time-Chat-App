@@ -1,16 +1,27 @@
 import { useState } from 'react'
 import './App.css'
+import { Button } from "@/components/ui/button"
 
-// Two Important compon-nt 
-// whr your usr writ his rspons
-// whr vry mssag is isplacd
+type Message = {
+  content: string,
+  sender: number
+}
 
 function InputComponent({onClick} : {onClick: any}) {
   let [value, setValue] = useState('');
+  
+  let handleclick = () => {
+    onClick({
+      content: value,
+      sender: 0
+    });
+    setValue("");
+  }
+  
   return (
     <div>
       <input type="text" name="message" id="input-message" value={value} onChange={(event) => setValue(event.target.value)}/>
-      <button type="submit" onClick={() => onClick({content: value})}>send</button>
+      <Button onClick={handleclick} variant="outline">Button</Button>
     </div>
   )
 }
@@ -33,15 +44,12 @@ function Chat({messages}: {messages: {content:string}[]}) {
 
 
 function App() {
-  let [messages, setMessages] = useState([
-  {content: "Hello, there"},
-  {content: "Hi How are you?"}
-]);
+  let [messages, setMessages] = useState<Message[]>([]);
 
   return (
     <>
       <Chat messages={messages} />
-      <InputComponent onClick={(x: {content:string}) => setMessages([...messages,x])} />
+      <InputComponent onClick={(x: Message) => setMessages([...messages,x])} />
     </>
   )
 }
