@@ -10,18 +10,26 @@ type Message = {
 function InputComponent({onClick} : {onClick: any}) {
   let [value, setValue] = useState('');
   
-  let handleclick = () => {
+  let handleClick = () => {
     onClick({
       content: value,
       sender: 0
     });
     setValue("");
   }
+
+  let handleEnter = (e: React.KeyboardEvent) => {
+    e.key === "Enter" && handleClick();
+  }
   
   return (
     <div>
-      <input type="text" name="message" id="input-message" value={value} onChange={(event) => setValue(event.target.value)}/>
-      <Button onClick={handleclick} variant="outline">Button</Button>
+      <input 
+        type="text" name="message" id="input-message" value={value} 
+        onChange={(event) => setValue(event.target.value)}
+        onKeyDown={handleEnter}
+      />
+      <Button onClick={handleClick} variant="outline">Button</Button>
     </div>
   )
 }
