@@ -34,6 +34,30 @@ function InputComponent({onClick} : {onClick: any}) {
   )
 }
 
+function Login({onClick} : {onClick: any}) {
+  let [value, setValue] = useState('');
+  
+  let handleClick = () => {
+    onClick(value);
+  }
+
+  let handleEnter = (e: React.KeyboardEvent) => {
+    e.key === "Enter" && handleClick();
+  }
+  
+  return (
+    <div>
+      <h1>Enter Username</h1>
+      <input 
+        type="text" name="message" id="input-message" value={value} 
+        onChange={(event) => setValue(event.target.value)}
+        onKeyDown={handleEnter}
+      />
+      <Button onClick={handleClick} variant="outline">Button</Button>
+    </div>
+  )
+}
+
 function Chat({messages}: {messages: {content:string}[]}) {
   console.log(messages);
   return (
@@ -52,9 +76,12 @@ function Chat({messages}: {messages: {content:string}[]}) {
 
 
 function App() {
+  let [user, setUser] = useState<string | null>(null);
   let [messages, setMessages] = useState<Message[]>([]);
 
   return (
+    user === null ?
+    <Login onClick={setUser} /> : 
     <>
       <Chat messages={messages} />
       <InputComponent onClick={(x: Message) => setMessages([...messages,x])} />
